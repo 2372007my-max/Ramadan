@@ -1,263 +1,219 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>رمضان كريم 🌙</title>
+<title>رمضان كريم</title>
+
+<link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500&display=swap" rel="stylesheet">
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'El Messiri',sans-serif}
+
+/* صفحة 3D */
+#intro3d{
+position:fixed;
+width:100%;
+height:100%;
+background:#020b12;
+display:flex;
+justify-content:center;
+align-items:center;
+perspective:800px;
+z-index:9999;
+color:#ffd369;
+font-size:40px;
+}
+
+#introText{
+transform-style:preserve-3d;
+animation:introAnim 3s ease-in-out forwards;
+text-shadow:0 0 25px rgba(255,211,105,.8);
+}
+
+@keyframes introAnim{
+0%{transform:rotateY(90deg) scale(.5);opacity:0;}
+50%{opacity:1;}
+100%{transform:rotateY(0) scale(1);}
+}
+
+/* شاشة التحميل */
+#loader{
+position:fixed;
+width:100%;
+height:100%;
+background:#08131d;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.spinner{
+width:55px;
+height:55px;
+border:5px solid rgba(255,255,255,.2);
+border-top:5px solid #ffd369;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* الخلفية */
 body{
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
-  margin:0;
-  color:white;
-  text-align:center;
-  overflow:hidden;
-  padding:10px;
-  box-sizing:border-box;
+background:radial-gradient(circle at top,#102c40,#08131d);
+height:100vh;
+overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
 }
 
-/* ===== نجوم متحركة في الخلفية ===== */
+.moon{
+position:absolute;
+top:60px;
+right:60px;
+width:90px;height:90px;
+background:#ffd369;
+border-radius:50%;
+box-shadow:-25px 0 0 18px #08131d,0 0 25px rgba(255,211,105,.4);
+animation:floatMoon 4s infinite ease-in-out;
+}
+@keyframes floatMoon{50%{transform:translateY(10px)}}
+
 .star{
-  position:absolute;
-  background:white;
-  border-radius:50%;
-  opacity:0.8;
-  animation:twinkle linear infinite;
+position:absolute;width:2px;height:2px;background:white;
+animation:twinkle 2s infinite alternate;
 }
+@keyframes twinkle{to{opacity:.3}}
 
-@keyframes twinkle{
-  0%{ transform:translateY(0) scale(1); opacity:0.8; }
-  50%{ transform:translateY(50vh) scale(0.5); opacity:0.2; }
-  100%{ transform:translateY(100vh) scale(1); opacity:0.8; }
-}
-
-/* ===== فوانيس متوهجة ===== */
 .lantern{
-  position:absolute;
-  top:-120px;
-  width:12vw;
-  max-width:70px;
-  animation:fall linear infinite, glowLantern 2s infinite;
-  opacity:0.9;
-  filter: drop-shadow(0 0 10px #ffd369);
+position:absolute;top:-100px;font-size:40px;
+animation:fall 12s linear infinite;
+}
+@keyframes fall{to{transform:translateY(120vh)}}
+
+.container{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(14px);
+padding:30px;
+border-radius:22px;
+text-align:center;
+width:92%;
+max-width:420px;
+box-shadow:0 15px 40px rgba(0,0,0,.5);
 }
 
-@keyframes fall{
-  from{ transform:translateY(-120px) rotate(0deg);}
-  to{ transform:translateY(110vh) rotate(360deg);}
+input,button{
+width:100%;padding:13px;margin-top:12px;border:none;border-radius:12px;
 }
 
-@keyframes glowLantern{
-  0%,100%{ filter: drop-shadow(0 0 10px #ffd369); }
-  50%{ filter: drop-shadow(0 0 25px #fffc69); }
-}
+button{background:#ffd369;font-weight:bold;cursor:pointer}
+.hidden{display:none}
 
-.l1{ left:5%; animation-duration:12s,2s; }
-.l2{ left:35%; animation-duration:15s,2s; }
-.l3{ left:65%; animation-duration:10s,2s; }
-.l4{ left:85%; animation-duration:18s,2s; }
+h1{color:#ffd369}
 
-/* ===== صندوق المحتوى ===== */
-.box{
-  background:rgba(255,255,255,0.1);
-  padding:25px;
-  border-radius:20px;
-  backdrop-filter:blur(8px);
-  width:100%;
-  max-width:400px;
-  z-index:2;
-  box-sizing:border-box;
-}
-
-input{
-  padding:10px;
-  width:90%;
-  margin:10px 0;
-  border-radius:10px;
-  border:none;
-  font-size:1rem;
-  box-sizing:border-box;
-}
-
-button{
-  padding:10px 20px;
-  border:none;
-  border-radius:10px;
-  background:#ffd369;
-  cursor:pointer;
-  font-size:1rem;
-}
-
-#gift{
-  display:none;
-  margin-top:15px;
-}
-
-/* ===== السلايدر ===== */
-.slider{
-  position:relative;
-  width:100%;
-  height:220px;
-  overflow:hidden;
-  border-radius:15px;
-  margin-top:10px;
-}
-
-.slide{
-  position:absolute;
-  width:100%;
-  height:100%;
-  opacity:0;
-  transition:opacity 1s;
-}
-
-.slide img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.active{
-  opacity:1;
-}
-
-/* ===== الفيديو ===== */
-iframe{
-  width:100%;
-  margin-top:15px;
-  border-radius:15px;
-  height:200px;
-}
-
-/* ===== تأثير كتابة رمضان كريم ===== */
-#typing{
-  font-size:5vw;
-  font-weight:bold;
-  color:#ffd369;
-  height:6vw;
-  margin-bottom:10px;
-  overflow:hidden;
-  border-right:0.3vw solid #ffd369;
-  white-space:nowrap;
-  text-shadow: 0 0 10px #ffd369, 0 0 20px #fffc69, 0 0 30px #ffd369;
-  animation: glowText 2s infinite;
-}
-
-@keyframes glowText{
-  0%,100%{ text-shadow: 0 0 10px #ffd369, 0 0 20px #fffc69, 0 0 30px #ffd369; }
-  50%{ text-shadow: 0 0 20px #ffd369, 0 0 40px #fffc69, 0 0 60px #ffd369; }
-}
-
-/* ===== تجاوب الأجهزة ===== */
-@media (max-width:768px){
-  .slider{ height:180px; }
-  iframe{ height:160px; }
-  #typing{ font-size:7vw; height:8vw; border-right:0.4vw solid #ffd369; }
-  .box{ padding:20px; }
-}
-
-@media (max-width:480px){
-  .slider{ height:150px; }
-  iframe{ height:140px; }
-  #typing{ font-size:8vw; height:9vw; border-right:0.5vw solid #ffd369; }
-  .box{ padding:15px; }
-}
+.signature{margin-top:10px;opacity:.8}
 </style>
 </head>
 
 <body>
 
-<!-- نجوم -->
-<div id="stars"></div>
+<div id="intro3d">
+<div id="introText">رمضان كريم</div>
+</div>
 
-<!-- فوانيس -->
-<img src="https://i.ibb.co/2K2Rr5c/fanous.png" class="lantern l1">
-<img src="https://i.ibb.co/2K2Rr5c/fanous.png" class="lantern l2">
-<img src="https://i.ibb.co/2K2Rr5c/fanous.png" class="lantern l3">
-<img src="https://i.ibb.co/2K2Rr5c/fanous.png" class="lantern l4">
+<div id="loader" class="hidden">
+<div class="spinner"></div>
+<div>جاري التحميل...</div>
+</div>
 
-<!-- موسيقى رمضان -->
 <audio id="music" loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_c8a4d7baf1.mp3">
 </audio>
 
-<div class="box">
-  <div id="typing"></div>
+<!-- دعاء صوتي -->
+<audio id="duaAudio">
+<source src="https://cdn.pixabay.com/audio/2023/03/21/audio_5c58a4c7c2.mp3">
+</audio>
 
-  <h2>ادخل الباسورد 🌙</h2>
-  <input type="password" id="pass" placeholder="الباسورد">
-  <br>
-  <button onclick="checkPass()">دخول</button>
+<div class="moon"></div>
 
-  <div id="gift">
-    <h2>كل سنة وانتِ طيب/ـة بمناسبة شهر رمضان 🌙</h2>
+<div class="container hidden" id="loginBox">
+<h2>🌙 تهنئة رمضان</h2>
+<input type="password" id="password" placeholder="اكتب الباسورد">
+<button onclick="login()">دخول</button>
+</div>
 
-    <div class="slider">
-      <div class="slide active"><img src="https://i.ibb.co/q1pPL7y/ramadan1.jpg"></div>
-      <div class="slide"><img src="https://i.ibb.co/8zr2Bcr/ramadan2.jpg"></div>
-      <div class="slide"><img src="https://i.ibb.co/3cKxjvC/ramadan3.jpg"></div>
-    </div>
-
-    <iframe src="https://www.youtube.com/embed/8Z6g0GQ0J3M" allowfullscreen></iframe>
-  </div>
+<div class="container hidden" id="welcomeBox">
+<h1 id="title"></h1>
+<div id="duaText"></div>
+<div class="signature">تهنئة من مؤمن ياسر ✨</div>
 </div>
 
 <script>
-// إنشاء نجوم عشوائية
-const starCount = 50;
-const starsContainer = document.getElementById("stars");
-for(let s=0;s<starCount;s++){
-  const star = document.createElement("div");
-  star.className = "star";
-  let size = Math.random()*3+1;
-  star.style.width = size+"px";
-  star.style.height = size+"px";
-  star.style.left = Math.random()*100+"%";
-  star.style.top = Math.random()*100+"%";
-  star.style.animationDuration = (5+Math.random()*5)+"s";
-  starsContainer.appendChild(star);
+
+/* الانتقال من 3D إلى التحميل */
+setTimeout(()=>{
+document.getElementById("intro3d").style.display="none";
+document.getElementById("loader").classList.remove("hidden");
+
+setTimeout(()=>{
+document.getElementById("loader").style.display="none";
+document.getElementById("loginBox").classList.remove("hidden");
+},2000);
+
+},3000);
+
+/* نجوم */
+for(let i=0;i<80;i++){
+let s=document.createElement("div");
+s.className="star";
+s.style.left=Math.random()*100+"%";
+s.style.top=Math.random()*100+"%";
+document.body.appendChild(s);
 }
 
-// كتابة النص حرف حرف
-const text = "رمضان كريم 🌙";
-let i = 0;
-function typeText(){
-  if(i < text.length){
-    document.getElementById("typing").innerHTML += text.charAt(i);
-    i++;
-    setTimeout(typeText,150);
-  }
+/* فوانيس */
+setInterval(()=>{
+let l=document.createElement("div");
+l.className="lantern";
+l.innerHTML="🏮";
+l.style.left=Math.random()*100+"%";
+document.body.appendChild(l);
+setTimeout(()=>l.remove(),12000);
+},1500);
+
+function login(){
+if(document.getElementById("password").value==="رمضان كريم"){
+let name=prompt("اكتب اسمك");
+document.getElementById("title").innerText="رمضان كريم يا "+name;
+document.getElementById("loginBox").classList.add("hidden");
+document.getElementById("welcomeBox").classList.remove("hidden");
+document.getElementById("music").play();
+rotateDua();
+}else alert("الباسورد غير صحيح");
 }
 
-// السلايدر
-function startSlider(){
-  let slides = document.querySelectorAll(".slide");
-  let index = 0;
-  setInterval(() => {
-    slides[index].classList.remove("active");
-    index = (index + 1) % slides.length;
-    slides[index].classList.add("active");
-  }, 3000);
+/* أدعية */
+const duas=[
+"اللهم بلغنا رمضان لا فاقدين ولا مفقودين",
+"اللهم تقبل منا الصيام والقيام",
+"اللهم ارزقنا ليلة القدر"
+];
+
+function rotateDua(){
+let i=0;
+setInterval(()=>{
+document.getElementById("duaText").innerText=duas[i];
+document.getElementById("duaAudio").play();
+i=(i+1)%duas.length;
+},7000);
 }
 
-// التحقق من الباسورد
-function checkPass(){
-  var password = document.getElementById("pass").value;
-  if(password === "23/7/2007"){
-    document.getElementById("gift").style.display = "block";
-    document.getElementById("music").play();
-    startSlider();
-    typeText();
-  }else{
-    alert("الباسورد غلط!");
-  }
-}
 </script>
-
 </body>
-  </html>
+</html>
